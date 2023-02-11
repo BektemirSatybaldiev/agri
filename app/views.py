@@ -9,3 +9,4 @@ class PlotDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Plot.objects.all()
     serializer_class = PlotSerializer
     permission_classes = (IsOwner,)
+    lookup_field = 'plot_id'

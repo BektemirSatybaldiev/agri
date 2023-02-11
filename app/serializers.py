@@ -5,4 +5,4 @@ from .models import Plot
 class PlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plot
-        fields = ('id', 'contour', 'culture', 'season')
+        fields = ('id', 'plot_id','contour', 'culture', 'season')
