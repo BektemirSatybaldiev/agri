@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from app.models import Plot
+from app.serializers import PlotSerializer
+from .permissions import IsOwner
+
+
+class PlotDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Plot.objects.all()
+    serializer_class = PlotSerializer
+    permission_classes = (IsOwner,)

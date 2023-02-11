@@ -12,10 +12,20 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
-GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306.dll'
+if os.name == 'nt':
+    import platform
+    OSGEO4W = r"C:\OSGeo4W"
+    if '64' in platform.architecture()[0]:
+        OSGEO4W += ""
+    assert os.path.isdir(OSGEO4W), "Directory does not exist: " + OSGEO4W
+    os.environ['OSGEO4W_ROOT'] = OSGEO4W
+    os.environ['GDAL_DATA'] = r"C:\Program Files\GDAL\gdal-data"
+    os.environ['PROJ_LIB'] = OSGEO4W + r"\share\proj"
+    GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306'
+    os.environ['PATH'] = OSGEO4W + r"\bin;" + os.environ['PATH']
+#GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306.dll'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -27,7 +37,6 @@ SECRET_KEY = 'django-insecure-#s$)mr&0$7xvufo-69a6t%w!5mou+g2_q2r&x3x57kwzj+)l^=
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -74,7 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'agri.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -88,7 +96,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -108,7 +115,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -121,7 +127,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
