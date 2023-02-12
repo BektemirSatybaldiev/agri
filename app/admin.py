@@ -10,10 +10,14 @@ class CultureAdmin(admin.ModelAdmin):
 
 @admin.register(Farmer)
 class FarmerAdmin(admin.ModelAdmin):
-    search_fields = ['name', 'address', 'email']
+    list_display = ['id', 'name', 'address', 'email']
+    search_fields = ['id', 'name', 'address', 'email']
 
 
-admin.site.register(Plot, gis_admin.GISModelAdmin)
+@admin.register(Plot)
+class PlotAdmin(gis_admin.GISModelAdmin):
+    list_display = ['farmer', 'culture']
+    search_fields = ['__all__']
 
 
 @admin.register(Season)

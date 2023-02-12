@@ -43,7 +43,6 @@ class Plot(models.Model):
     culture = models.ForeignKey(Culture, on_delete=models.CASCADE, default=None)
     season = models.ManyToManyField(Season)
 
-
     def __str__(self):
         return f"Это поле принадлежит {self.farmer.name} и посеяно {self.culture}"
 
