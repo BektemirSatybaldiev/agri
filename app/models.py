@@ -25,6 +25,7 @@ class Culture(models.Model):
 
 
 class Farmer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     email = models.EmailField(max_length=100)
@@ -37,12 +38,11 @@ class Farmer(models.Model):
 
 
 class Plot(models.Model):
-    plot_id = models.CharField(max_length=100, unique=True, blank=True)
     contour = models.PolygonField(srid=4326)
     farmer = models.ForeignKey(Farmer, on_delete=models.CASCADE)
     culture = models.ForeignKey(Culture, on_delete=models.CASCADE, default=None)
     season = models.ManyToManyField(Season)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='plots')
+
 
     def __str__(self):
         return f"Это поле принадлежит {self.farmer.name} и посеяно {self.culture}"
