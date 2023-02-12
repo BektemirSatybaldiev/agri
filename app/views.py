@@ -1,14 +1,14 @@
 from rest_framework import generics, permissions
-from django.http import HttpRequest
 from app.models import Plot
 from app.serializers import PlotSerializer
 from .permissions import IsFarmer
 
 
-class PlotDetail(generics.RetrieveUpdateDestroyAPIView):
+class PlotDetail(generics.ListAPIView):
     queryset = Plot.objects.all()
     serializer_class = PlotSerializer
     permission_classes = [permissions.IsAuthenticated, IsFarmer]
+    lookup_field = 'pk'
 
     def get_queryset(self):
         return Plot.objects.filter(farmer=self.request.user.farmer)
