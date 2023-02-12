@@ -11,9 +11,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import dotenv
 
+dotenv.load_dotenv()
 if os.name == 'nt':
     import platform
+
     OSGEO4W = r"C:\OSGeo4W"
     if '64' in platform.architecture()[0]:
         OSGEO4W += ""
@@ -23,7 +26,7 @@ if os.name == 'nt':
     os.environ['PROJ_LIB'] = OSGEO4W + r"\share\proj"
     GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306'
     os.environ['PATH'] = OSGEO4W + r"\bin;" + os.environ['PATH']
-#GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306.dll'
+# GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306.dll'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -88,12 +91,12 @@ WSGI_APPLICATION = 'agri.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'agri',
-        'USER': 'postgres',
-        'PASSWORD': 'b31756515097',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.environ.get('DB_ENGINE'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 

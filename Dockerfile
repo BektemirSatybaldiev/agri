@@ -1,17 +1,18 @@
-FROM python:3.8-alpine
+FROM python:3.9-alpine
 
-WORKDIR /agri
+WORKDIR /app
 
-COPY requirements.txt /agri/
+COPY requirements.txt .
 
-RUN pip install -r requirements.txt
+RUN apk add --no-cache postgresql-dev gcc musl-dev && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt
 
-COPY . /agri/
+COPY . .
 
-ENV DJANGO_SETTINGS_MODULE=config.settings.local
-
+ENV PYTHONUNBUFFERED 1
+ENV DJANGO_SETTINGS_MODULE agri.settings
 
 EXPOSE 8000
 
-# Run the command to start the application
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
